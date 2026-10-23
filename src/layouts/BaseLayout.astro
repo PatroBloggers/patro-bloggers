@@ -6,11 +6,26 @@ import { url } from '../lib/utils';
 interface Props {
   title?: string;
   description?: string;
+  /** Imagen para compartir (ruta del sitio o URL); por defecto, la genérica con el escudo */
+  image?: string;
+  /** `article` en la página de un trabajo */
+  type?: 'website' | 'article';
+  /** Para páginas que no deben aparecer en buscadores (404) */
+  noindex?: boolean;
 }
 
 const siteName = 'Patro Bloggers';
-const { title, description = 'Redacciones, relatos y reflexiones del alumnado, publicados con pseudónimo.' } = Astro.props;
+const {
+  title,
+  description = 'Redacciones, relatos y reflexiones del alumnado, publicados con pseudónimo.',
+  image = url('og-image.png'),
+  type = 'website',
+  noindex = false,
+} = Astro.props;
 const pageTitle = title ? `${title} · ${siteName}` : siteName;
+// Las redes sociales necesitan URLs absolutas
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const imageUrl = new URL(image, Astro.site);
 ---
 
 <html lang="es">
@@ -18,9 +33,21 @@ const pageTitle = title ? `${title} · ${siteName}` : siteName;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonicalUrl} />}
     <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
     <link rel="apple-touch-icon" href={url('apple-touch-icon.png')} />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Vista previa al compartir (WhatsApp, Teams, Classroom...) -->
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={title ?? siteName} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+
     <title>{pageTitle}</title>
     <script is:inline>
       // Aplica el tema antes de pintar para evitar un destello del tema equivocado

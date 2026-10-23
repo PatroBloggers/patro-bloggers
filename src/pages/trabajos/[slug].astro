@@ -2,30 +2,58 @@
 import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import TagList from '../../components/TagList.astro';
-import { formatDate, getTrabajos, imageUrl, url } from '../../lib/utils';
+import { excerpt, formatDate, getTrabajos, imageUrl, readingMinutes, url } from '../../lib/utils';
 
 export async function getStaticPaths() {
   const trabajos = await getTrabajos();
-  return trabajos.map((trabajo) => ({ params: { slug: trabajo.id }, props: { trabajo } }));
+  // Ordenados del más reciente al más antiguo: el anterior es el siguiente en la lista
+  return trabajos.map((trabajo, i) => ({
+    params: { slug: trabajo.id },
+    props: { trabajo, older: trabajos[i + 1], newer: trabajos[i - 1] },
+  }));
 }
 
-const { trabajo } = Astro.props;
+const { trabajo, older, newer } = Astro.props;
 const { title, author, date, subject, image, tags } = trabajo.data;
 const { Content } = await render(trabajo);
+const minutes = readingMinutes(trabajo.body);
 ---
 
-<BaseLayout title={title} description={`${title}, por ${author}`}>
+<BaseLayout
+  title={title}
+  description={`${author}: ${excerpt(trabajo.body)}`}
+  image={image ? imageUrl(image) : undefined}
+  type="article"
+>
   <article class="trabajo">
     <a class="back" href={url()}>← Todos los trabajos</a>
     <header>
       {subject && <p class="subject">{subject}</p>}
       <h1>{title}</h1>
-      <p class="meta">{author} · <time datetime={date.toISOString()}>{formatDate(date)}</time></p>
+      <p class="meta">
+        {author} · <time datetime={date.toISOString()}>{formatDate(date)}</time> · {minutes} min de lectura
+      </p>
       <TagList tags={tags} />
     </header>
     {image && <img class="trabajo-image" src={imageUrl(image)} alt="" />}
     <div class="prose">
       <Content />
     </div>
+    {
+      (older || newer) && (
+        <nav class="trabajo-nav" aria-label="Más trabajos">
+          {older && (
+            <a class="trabajo-nav-link" href={url(`trabajos/${older.id}`)} rel="prev" title="Trabajo anterior">
+              ← <span>{older.data.title}</span>
+            </a>
+          )}
+          {newer && (
+            <a class="trabajo-nav-link trabajo-nav-next" href={url(`trabajos/${newer.id}`)} rel="next" title="Trabajo siguiente">
+              <span>{newer.data.title}</span> →
+            </a>
+          )}
+        </nav>
+      )
+    }
   </article>
 </BaseLayout>
