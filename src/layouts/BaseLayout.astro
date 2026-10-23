@@ -36,6 +36,9 @@ const imageUrl = new URL(image, Astro.site);
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonicalUrl} />}
     <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
     <link rel="apple-touch-icon" href={url('apple-touch-icon.png')} />
+    <!-- Instalable como aplicación (PWA / WebAPK en Android) -->
+    <link rel="manifest" href={url('manifest.webmanifest')} />
+    <meta name="theme-color" content="#004888" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Vista previa al compartir (WhatsApp, Teams, Classroom...) -->
@@ -79,5 +82,14 @@ const imageUrl = new URL(image, Astro.site);
     <footer class="site-footer">
       <div class="container">Trabajos publicados con pseudónimo · {new Date().getFullYear()}</div>
     </footer>
+    {
+      import.meta.env.PROD && (
+        <script is:inline define:vars={{ swUrl: url('sw.js'), scope: url() }}>
+          if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => navigator.serviceWorker.register(swUrl, { scope }));
+          }
+        </script>
+      )
+    }
   </body>
 </html>

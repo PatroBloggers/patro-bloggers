@@ -1,0 +1,19 @@
+---
+// Página que muestra el service worker (public/sw.js) cuando no hay conexión
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ConfusedDove from '../components/ConfusedDove.astro';
+---
+
+<BaseLayout title="Sin conexión" noindex>
+  <section class="not-found">
+    <ConfusedDove />
+    <p class="not-found-code">Sin conexión</p>
+    <h1>¡Vaya! No hay internet</h1>
+    <p>
+      Nuestra paloma no encuentra la señal. Comprueba la conexión del móvil o del ordenador y vuelve a
+      intentarlo.
+    </p>
+    <!-- Este aviso se muestra en la dirección que se intentaba abrir: recargarla es reintentar -->
+    <a class="button" href="">Reintentar</a>
+  </section>
+</BaseLayout>
