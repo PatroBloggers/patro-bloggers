@@ -58,6 +58,7 @@ export function toTrabajoItem(trabajo: CollectionEntry<'trabajos'>): TrabajoItem
     subject,
     image: image ? imageUrl(image) : undefined,
     tags,
+    excerpt: excerpt(trabajo.body, 140),
     searchText: normalize([title, author, ...tags, markdownToText(trabajo.body)].join(' ')),
   };
 }

@@ -239,6 +239,7 @@ main.container {
   color: var(--muted);
   font-size: 0.875rem;
   padding: 24px 0;
+  text-align: center;
 }
 
 .intro h1 {
@@ -324,6 +325,30 @@ main.container {
   margin: 0 0 12px;
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+/* Extracto: como mucho tres líneas */
+.card-excerpt {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  margin: 0 0 12px;
+  font-family: var(--font-prose);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.load-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.load-more .chip {
+  padding: 8px 20px;
 }
 
 .tags {

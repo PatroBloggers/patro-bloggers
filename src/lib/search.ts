@@ -11,6 +11,8 @@ export interface TrabajoItem {
   subject?: string;
   image?: string;
   tags: string[];
+  /** Comienzo del texto para la tarjeta */
+  excerpt: string;
   /** Título, autor, etiquetas y texto, normalizados para buscar */
   searchText: string;
 }

@@ -16,6 +16,9 @@ interface Filters {
 
 const EMPTY: Filters = { query: '', subject: null, tags: [] };
 
+/** Trabajos que se muestran de entrada y que añade cada clic en "Ver más" */
+const PAGE_SIZE = 12;
+
 function readFiltersFromUrl(): Filters {
   const params = new URLSearchParams(window.location.search);
   return {
@@ -36,6 +39,7 @@ function writeFiltersToUrl({ query, subject, tags }: Filters) {
 
 export default function TrabajosExplorer({ items, subjects }: Props) {
   const [filters, setFilters] = useState<Filters>(EMPTY);
+  const [visible, setVisible] = useState(PAGE_SIZE);
   // Evita sobrescribir la URL con filtros vacíos antes de haberla leído
   const urlLoaded = useRef(false);
 
@@ -46,6 +50,8 @@ export default function TrabajosExplorer({ items, subjects }: Props) {
 
   useEffect(() => {
     if (urlLoaded.current) writeFiltersToUrl(filters);
+    // Con otros filtros, volver a mostrar solo la primera tanda
+    setVisible(PAGE_SIZE);
   }, [filters]);
 
   // Etiquetas de todos los trabajos, de más a menos usadas
@@ -149,7 +155,7 @@ export default function TrabajosExplorer({ items, subjects }: Props) {
 
       {results.length > 0 ? (
         <div className="grid">
-          {results.map((item) => (
+          {results.slice(0, visible).map((item) => (
             <TrabajoCard key={item.id} item={item} activeTags={filters.tags} onTagClick={toggleTag} />
           ))}
         </div>
@@ -157,6 +163,14 @@ export default function TrabajosExplorer({ items, subjects }: Props) {
         <p className="empty">
           {items.length === 0 ? 'Todavía no hay trabajos publicados.' : 'Ningún trabajo coincide con la búsqueda.'}
         </p>
+      )}
+
+      {results.length > visible && (
+        <div className="load-more">
+          <button type="button" className="chip" onClick={() => setVisible((v) => v + PAGE_SIZE)}>
+            Ver más trabajos ({results.length - visible} más)
+          </button>
+        </div>
       )}
     </div>
   );
@@ -180,6 +194,7 @@ function TrabajoCard({ item, activeTags, onTagClick }: CardProps) {
         <p className="meta">
           {item.author} · <time dateTime={item.date}>{item.dateLabel}</time>
         </p>
+        {item.excerpt && <p className="card-excerpt">{item.excerpt}</p>}
         {item.tags.length > 0 && (
           <ul className="tags">
             {item.tags.map((tag) => {
