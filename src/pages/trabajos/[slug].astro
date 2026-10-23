@@ -5,6 +5,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PrintButton from '../../components/PrintButton.astro';
 import ShareButton from '../../components/ShareButton.astro';
 import TagList from '../../components/TagList.astro';
+import { courseOf } from '../../lib/courses';
 import { excerpt, formatDate, getTrabajos, readingMinutes, shareImage, url } from '../../lib/utils';
 
 export async function getStaticPaths() {
@@ -20,6 +21,7 @@ const { trabajo, older, newer } = Astro.props;
 const { title, author, date, subject, image, tags } = trabajo.data;
 const { Content } = await render(trabajo);
 const minutes = readingMinutes(trabajo.body);
+const course = courseOf(date);
 const canonicalUrl = new URL(url(`trabajos/${trabajo.id}/`), Astro.site);
 ---
 
@@ -35,7 +37,11 @@ const canonicalUrl = new URL(url(`trabajos/${trabajo.id}/`), Astro.site);
     </p>
     <a class="back" href={url()}>← Todos los trabajos</a>
     <header>
-      {subject && <p class="subject">{subject}</p>}
+      <p class="kicker">
+        {subject && <span class="subject">{subject}</span>}
+        {subject && ' · '}
+        <a href={url(`?curso=${course.slug}`)}>{subject ? course.years : course.label}</a>
+      </p>
       <h1>{title}</h1>
       <p class="meta">
         {author} · <time datetime={date.toISOString()}>{formatDate(date)}</time> · {minutes} min de lectura

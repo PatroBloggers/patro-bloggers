@@ -300,7 +300,15 @@ function TrabajoCard({ item, activeTags, onTagClick }: CardProps) {
         />
       )}
       <div className="card-body">
-        {item.subject && <p className="subject">{item.subject}</p>}
+        <p className="kicker">
+          {item.subject ? (
+            <>
+              <span className="subject">{item.subject}</span> · {item.course.years}
+            </>
+          ) : (
+            item.course.label
+          )}
+        </p>
         <h2>
           <a href={item.href}>{item.title}</a>
         </h2>

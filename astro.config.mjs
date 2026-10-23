@@ -3,21 +3,38 @@ import { defineConfig } from 'astro/config';
 
 import react from '@astrojs/react';
 import { satteri } from '@astrojs/markdown-satteri';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { imageSize } from 'image-size';
 
 const base = '/patro-bloggers';
 
 /**
- * Las fotos del texto de un trabajo se muestran como mucho al ancho de la columna de lectura.
+ * Las fotos del texto de un trabajo se muestran como mucho al ancho de la columna de lectura (700px).
  * Con ese ancho, Astro genera versiones de hasta el doble (pantallas de alta densidad) y nunca
- * sirve la original, que puede pesar varios MB si viene de un móvil. No agranda las pequeñas.
+ * sirve la original, que puede pesar varios MB si viene de un móvil. Las imágenes más estrechas
+ * conservan su ancho, para no verse estiradas.
  */
+const CONTENT_IMAGE_MAX_WIDTH = 700;
+// Las rutas de las imágenes son relativas a los trabajos, que están todos en esta carpeta
+const TRABAJOS_DIR = resolve('src/content/trabajos');
+
 const limitContentImageWidth = {
   name: 'limit-content-image-width',
   element: {
     filter: ['img'],
     /** @param {any} node @param {any} ctx */
     visit(node, ctx) {
-      if (!node.properties?.width) ctx.setProperty(node, 'width', 700);
+      const src = node.properties?.src;
+      if (node.properties?.width || typeof src !== 'string' || /^(https?:)?\/\//.test(src)) return;
+      let width = CONTENT_IMAGE_MAX_WIDTH;
+      try {
+        const natural = imageSize(readFileSync(resolve(TRABAJOS_DIR, decodeURI(src)))).width;
+        if (natural) width = Math.min(natural, CONTENT_IMAGE_MAX_WIDTH);
+      } catch {
+        // Si no se puede leer, el build fallará igualmente al procesar la imagen, con un error más claro
+      }
+      ctx.setProperty(node, 'width', width);
     },
   },
 };
@@ -62,7 +79,12 @@ export default defineConfig({
   trailingSlash: 'ignore',
   integrations: [react()],
   markdown: {
-    processor: satteri({ hastPlugins: [limitContentImageWidth] }),
+    processor: satteri({
+      hastPlugins: [limitContentImageWidth],
+      features: {
+        gfm: { footnotes: { label: 'Notas', backLabel: 'Volver a la referencia {reference}' } },
+      },
+    }),
   },
   image: {
     // Imágenes adaptables por defecto (también las del texto de los trabajos): varias versiones

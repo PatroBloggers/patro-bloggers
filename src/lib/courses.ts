@@ -5,6 +5,8 @@ export interface Course {
   slug: string;
   /** Para mostrar: `Curso 2026/2027` */
   label: string;
+  /** Versión corta, junto a la asignatura: `2026/2027` */
+  years: string;
 }
 
 /**
@@ -15,5 +17,6 @@ export interface Course {
 export function courseOf(date: Date): Course {
   const SEPTEMBER = 8; // getUTCMonth() empieza en 0 = enero
   const start = date.getUTCMonth() >= SEPTEMBER ? date.getUTCFullYear() : date.getUTCFullYear() - 1;
-  return { slug: `${start}-${start + 1}`, label: `Curso ${start}/${start + 1}` };
+  const years = `${start}/${start + 1}`;
+  return { slug: `${start}-${start + 1}`, label: `Curso ${years}`, years };
 }

@@ -350,13 +350,29 @@ main.container {
   color: var(--accent);
 }
 
-.subject {
+/* Línea pequeña sobre el título: asignatura (verde) · curso (gris) */
+.kicker {
   margin: 0 0 4px;
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.kicker .subject {
   color: var(--green-text);
+}
+
+.kicker a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.kicker a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .meta {
@@ -860,6 +876,11 @@ button.tag {
   margin-bottom: 0.35em;
 }
 
+.prose li > ul,
+.prose li > ol {
+  margin: 0.35em 0 0;
+}
+
 .prose li::marker {
   color: var(--green-text);
 }
@@ -892,6 +913,120 @@ button.tag {
 
 .prose blockquote p:last-child {
   margin-bottom: 0;
+}
+
+/* Código dentro de una frase */
+.prose code {
+  padding: 0.1em 0.35em;
+  font-size: 0.88em;
+  background: var(--accent-soft);
+  border-radius: 4px;
+}
+
+/* Bloques de código (el color lo pone el resaltado de sintaxis) */
+.prose pre {
+  margin: 1.5em 0;
+  padding: 16px 18px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  border-radius: var(--radius);
+}
+
+.prose pre code {
+  padding: 0;
+  font-size: inherit;
+  background: none;
+}
+
+/* Tablas: con scroll horizontal propio en pantallas estrechas */
+.prose table {
+  display: block;
+  max-width: 100%;
+  margin: 1.5em 0;
+  overflow-x: auto;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  border-collapse: collapse;
+}
+
+.prose th,
+.prose td {
+  padding: 8px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.prose th {
+  font-weight: 600;
+  color: var(--accent);
+  border-bottom: 2px solid var(--accent);
+}
+
+.prose tbody tr:nth-child(even) {
+  background: var(--surface);
+}
+
+/* Listas de tareas: la casilla sustituye a la viñeta */
+.prose .contains-task-list {
+  padding-left: 0.2em;
+  list-style: none;
+}
+
+/* Casillas propias: las de solo lectura del navegador salen grises y apenas se distinguen */
+.prose .task-list-item input {
+  appearance: none;
+  width: 1em;
+  height: 1em;
+  margin: 0 0.5em 0 0;
+  vertical-align: -0.12em;
+  border: 2px solid var(--green-text);
+  border-radius: 3px;
+}
+
+.prose .task-list-item input:checked {
+  background: var(--green-text)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / 100% no-repeat;
+}
+
+/* Tareas hechas, en gris */
+.prose .task-list-item:has(input:checked) {
+  color: var(--muted);
+}
+
+/* Notas al pie */
+.prose sup a {
+  padding: 0 0.15em;
+  font-family: var(--font-body);
+  font-size: 0.8em;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.prose .footnotes {
+  margin-top: 2.5em;
+  padding-top: 1em;
+  font-size: 0.95rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+
+.prose .footnotes p {
+  margin: 0;
+}
+
+.prose [data-footnote-backref] {
+  text-decoration: none;
+}
+
+/* Visible solo para lectores de pantalla */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 /* Anterior / siguiente: discreto, una línea */
@@ -1014,7 +1149,9 @@ button.tag {
     --text: #111111;
     --muted: #4a4a4a;
     --accent: var(--brand-blue);
+    --accent-soft: #e3edf7;
     --green-text: #0b7a4b;
+    --green-soft: #dcfcec;
     --border: #cccccc;
     --quote-border: #b8b46a;
   }

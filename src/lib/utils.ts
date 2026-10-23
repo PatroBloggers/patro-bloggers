@@ -23,11 +23,22 @@ export async function getTrabajos() {
 
 /** Quita la sintaxis Markdown más común para buscar sobre el texto plano. */
 export function markdownToText(markdown = ''): string {
-  return markdown
-    .replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/[#>*_`~-]/g, ' ')
-    .replace(/\s+/g, ' ');
+  return (
+    markdown
+      // Enlaces e imágenes: solo el texto
+      .replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1')
+      // Notas al pie: la llamada [^1] y el marcador de la definición
+      .replace(/\[\^[^\]]+\]:?/g, '')
+      .replace(/<[^>]+>/g, ' ')
+      // Marcas al principio de línea: títulos, citas, viñetas, casillas, separadores y vallas de código
+      .replace(/^\s*(#{1,6}|>|[-+*](\s+\[[ xX]\])?|\d+\.|-{3,}|\`{3}.*)(?=\s|$)/gm, ' ')
+      // Filas separadoras y barras de las tablas
+      .replace(/^\s*\|?[\s:|-]+\|[\s:|-]*$/gm, ' ')
+      .replace(/\|/g, ' ')
+      // Negrita, cursiva, tachado y código: se quita la marca, no se deja hueco
+      .replace(/[*_~`]/g, '')
+      .replace(/\s+/g, ' ')
+  );
 }
 
 /** Comienzo del texto (sin subtítulos) para descripciones y vistas previas, cortado en una palabra. */
