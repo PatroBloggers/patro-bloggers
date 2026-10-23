@@ -1,0 +1,22 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import TrabajoCard from './TrabajoCard.astro';
+
+interface Props {
+  trabajos: CollectionEntry<'trabajos'>[];
+}
+
+const { trabajos } = Astro.props;
+---
+
+{
+  trabajos.length > 0 ? (
+    <div class="grid">
+      {trabajos.map((trabajo) => (
+        <TrabajoCard trabajo={trabajo} />
+      ))}
+    </div>
+  ) : (
+    <p class="empty">Todavía no hay trabajos publicados.</p>
+  )
+}

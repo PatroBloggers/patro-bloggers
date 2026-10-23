@@ -1,0 +1,22 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, imageUrl, url } from '../lib/utils';
+import TagList from './TagList.astro';
+
+interface Props {
+  trabajo: CollectionEntry<'trabajos'>;
+}
+
+const { trabajo } = Astro.props;
+const { title, author, date, subject, image, tags } = trabajo.data;
+---
+
+<article class="card">
+  {image && <img class="card-image" src={imageUrl(image)} alt="" loading="lazy" />}
+  <div class="card-body">
+    {subject && <p class="subject">{subject}</p>}
+    <h2><a href={url(`trabajos/${trabajo.id}`)}>{title}</a></h2>
+    <p class="meta">{author} · <time datetime={date.toISOString()}>{formatDate(date)}</time></p>
+    <TagList tags={tags} />
+  </div>
+</article>

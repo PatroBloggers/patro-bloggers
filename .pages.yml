@@ -1,0 +1,47 @@
+# Configuración de Pages CMS (https://pagescms.org/docs/configuration/)
+# Los campos deben coincidir con el esquema de src/content.config.ts
+media:
+  input: public/images
+  output: /patro-blogs/images
+
+content:
+  - name: trabajos
+    label: Trabajos
+    type: collection
+    path: src/content/trabajos
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      fields: [title, author, subject, date]
+      primary: title
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Título
+        type: string
+        required: true
+      - name: author
+        label: Autor/a (pseudónimo)
+        description: Usa siempre un pseudónimo, nunca el nombre real del alumno/a.
+        type: string
+        required: true
+      - name: date
+        label: Fecha
+        type: date
+        required: true
+      - name: subject
+        label: Asignatura
+        type: string
+      - name: image
+        label: Imagen
+        type: image
+      - name: tags
+        label: Etiquetas
+        type: string
+        list: true
+      - name: body
+        label: Texto
+        type: rich-text
+        required: true

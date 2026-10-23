@@ -1,0 +1,38 @@
+---
+import '../styles/global.css';
+import { url } from '../lib/utils';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const siteName = 'Patro Blogs';
+const { title, description = 'Trabajos de alumnos y alumnas' } = Astro.props;
+const pageTitle = title ? `${title} · ${siteName}` : siteName;
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
+    <link rel="icon" href={url('favicon.ico')} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="site-title" href={url()}>{siteName}</a>
+      </div>
+    </header>
+    <main class="container">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="container">Trabajos publicados con pseudónimo · {new Date().getFullYear()}</div>
+    </footer>
+  </body>
+</html>

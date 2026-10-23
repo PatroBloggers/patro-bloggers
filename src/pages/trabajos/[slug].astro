@@ -1,0 +1,31 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TagList from '../../components/TagList.astro';
+import { formatDate, getTrabajos, imageUrl, url } from '../../lib/utils';
+
+export async function getStaticPaths() {
+  const trabajos = await getTrabajos();
+  return trabajos.map((trabajo) => ({ params: { slug: trabajo.id }, props: { trabajo } }));
+}
+
+const { trabajo } = Astro.props;
+const { title, author, date, subject, image, tags } = trabajo.data;
+const { Content } = await render(trabajo);
+---
+
+<BaseLayout title={title} description={`${title}, por ${author}`}>
+  <article class="trabajo">
+    <a class="back" href={url()}>← Todos los trabajos</a>
+    <header>
+      {subject && <p class="subject">{subject}</p>}
+      <h1>{title}</h1>
+      <p class="meta">{author} · <time datetime={date.toISOString()}>{formatDate(date)}</time></p>
+      <TagList tags={tags} />
+    </header>
+    {image && <img class="trabajo-image" src={imageUrl(image)} alt="" />}
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
