@@ -331,7 +331,7 @@ main.container {
   margin-top: auto;
 }
 
-.card-footer .share-button {
+.card-footer .icon-button {
   margin-left: auto;
 }
 
@@ -421,8 +421,8 @@ button.tag {
   color: #08311f;
 }
 
-/* Botón de compartir */
-.share-button {
+/* Botones con icono (compartir, imprimir) */
+.icon-button {
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;
@@ -437,17 +437,17 @@ button.tag {
   cursor: pointer;
 }
 
-.share-button:hover {
+.icon-button:hover {
   border-color: var(--accent);
   background: var(--accent-soft);
 }
 
-.share-button:focus-visible {
+.icon-button:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
-.share-icon {
+.icon {
   width: 18px;
   height: 18px;
   fill: none;
@@ -465,7 +465,9 @@ button.tag {
   gap: 12px;
 }
 
-.trabajo-actions .share-button {
+.trabajo-buttons {
+  display: flex;
+  gap: 4px;
   margin-left: auto;
 }
 
@@ -991,4 +993,129 @@ button.tag {
 .button:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+/* Impresión y "Guardar como PDF": solo el trabajo, en claro y sin elementos de la web */
+.print-only {
+  display: none;
+}
+
+@media print {
+  @page {
+    margin: 2cm 2cm 2.2cm;
+  }
+
+  /* Siempre colores claros, aunque la web esté en modo oscuro */
+  :root,
+  :root[data-theme='dark'] {
+    color-scheme: light;
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --text: #111111;
+    --muted: #4a4a4a;
+    --accent: var(--brand-blue);
+    --green-text: #0b7a4b;
+    --border: #cccccc;
+    --quote-border: #b8b46a;
+  }
+
+  body {
+    background: #ffffff;
+  }
+
+  .site-header,
+  .site-footer,
+  .back,
+  .trabajo-actions,
+  .trabajo-nav,
+  .toast,
+  astro-dev-toolbar {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block;
+  }
+
+  main.container {
+    max-width: none;
+    padding: 0;
+  }
+
+  .trabajo {
+    max-width: none;
+  }
+
+  .print-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 18pt;
+    padding-bottom: 8pt;
+    font-size: 10pt;
+    font-weight: 700;
+    color: var(--brand-blue);
+    border-bottom: 2px solid var(--quote-border);
+  }
+
+  .trabajo header h1 {
+    font-size: 22pt;
+  }
+
+  .trabajo header {
+    margin-bottom: 14pt;
+  }
+
+  .prose {
+    font-size: 12pt;
+    line-height: 1.6;
+  }
+
+  .prose p,
+  .prose li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    break-after: avoid;
+  }
+
+  img,
+  blockquote,
+  li {
+    break-inside: avoid;
+  }
+
+  /* Que una foto vertical no ocupe una página entera */
+  .trabajo-image,
+  .prose img {
+    width: auto;
+    max-width: 100%;
+    max-height: 11cm;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* En papel no se puede hacer clic: mostrar a dónde llevan los enlaces */
+  .prose a {
+    color: inherit;
+  }
+
+  .prose a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 9pt;
+    color: var(--muted);
+    word-break: break-all;
+  }
+
+  .print-source {
+    margin-top: 24pt;
+    padding-top: 8pt;
+    font-size: 9pt;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
 }

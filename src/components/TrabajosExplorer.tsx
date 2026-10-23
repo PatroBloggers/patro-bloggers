@@ -288,7 +288,17 @@ interface CardProps {
 function TrabajoCard({ item, activeTags, onTagClick }: CardProps) {
   return (
     <article className="card">
-      {item.image && <img className="card-image" src={item.image} alt="" loading="lazy" />}
+      {item.image && (
+        <img
+          className="card-image"
+          src={item.image.src}
+          srcSet={item.image.srcset}
+          sizes="(max-width: 600px) 100vw, 340px"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+      )}
       <div className="card-body">
         {item.subject && <p className="subject">{item.subject}</p>}
         <h2>
@@ -320,12 +330,12 @@ function TrabajoCard({ item, activeTags, onTagClick }: CardProps) {
           )}
           <button
             type="button"
-            className="share-button"
+            className="icon-button"
             aria-label={`Compartir «${item.title}»`}
             title="Compartir"
             onClick={() => shareTrabajo({ title: item.title, author: item.author, href: item.href })}
           >
-            <svg className="share-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <svg className="icon" viewBox="0 0 24 24" aria-hidden="true">
               {SHARE_ICON.circles.map(({ cx, cy }) => (
                 <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="3" />
               ))}

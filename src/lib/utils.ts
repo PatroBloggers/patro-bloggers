@@ -1,3 +1,4 @@
+import { getImage } from 'astro:assets';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { courseOf } from './courses';
 import { normalize, type TrabajoItem } from './search';
@@ -8,11 +9,6 @@ export { slugify } from './search';
 export function url(path = ''): string {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   return `${base}/${path.replace(/^\//, '')}`;
-}
-
-/** Ruta de imagen: deja intactas las absolutas (ya incluyen /patro-bloggers) y las externas. */
-export function imageUrl(src: string): string {
-  return /^(https?:)?\/\//.test(src) || src.startsWith('/') ? src : url(src);
 }
 
 export function formatDate(date: Date): string {
@@ -41,13 +37,24 @@ export function excerpt(markdown = '', maxLength = 160): string {
   return text.slice(0, text.lastIndexOf(' ', maxLength)).replace(/[\s,;:.]+$/, '') + '…';
 }
 
+/** Imagen de tarjeta: WebP adaptable a partir de 400px (las tarjetas miden unos 270-340px) */
+async function cardImage(src: ImageMetadata) {
+  const { src: optimized, srcSet } = await getImage({ src, width: 400, format: 'webp', layout: 'constrained' });
+  return { src: optimized, srcset: srcSet.attribute };
+}
+
+/** Imagen para compartir: JPG de 1200px, el formato que mejor aceptan WhatsApp, Teams, etc. */
+export async function shareImage(src: ImageMetadata): Promise<string> {
+  return (await getImage({ src, width: 1200, format: 'jpg', layout: 'none' })).src;
+}
+
 /** Minutos de lectura (unas 200 palabras por minuto), como mínimo 1. */
 export function readingMinutes(markdown = ''): number {
   const words = markdownToText(markdown).split(' ').filter(Boolean).length;
   return Math.max(1, Math.round(words / 200));
 }
 
-export function toTrabajoItem(trabajo: CollectionEntry<'trabajos'>): TrabajoItem {
+export async function toTrabajoItem(trabajo: CollectionEntry<'trabajos'>): Promise<TrabajoItem> {
   const { title, author, date, subject, image, tags } = trabajo.data;
   return {
     id: trabajo.id,
@@ -58,7 +65,7 @@ export function toTrabajoItem(trabajo: CollectionEntry<'trabajos'>): TrabajoItem
     dateLabel: formatDate(date),
     subject,
     course: courseOf(date),
-    image: image ? imageUrl(image) : undefined,
+    image: image ? await cardImage(image) : undefined,
     tags,
     excerpt: excerpt(trabajo.body, 140),
     searchText: normalize([title, author, ...tags, markdownToText(trabajo.body)].join(' ')),

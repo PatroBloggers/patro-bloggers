@@ -12,14 +12,14 @@ const { title, author, href } = Astro.props;
 
 <button
   type="button"
-  class="share-button"
+  class="icon-button"
   aria-label={`Compartir «${title}»`}
   title="Compartir"
   data-share-title={title}
   data-share-author={author}
   data-share-href={href}
 >
-  <svg class="share-icon" viewBox="0 0 24 24" aria-hidden="true">
+  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
     {SHARE_ICON.circles.map(({ cx, cy }) => <circle cx={cx} cy={cy} r="3" />)}
     <path d={SHARE_ICON.lines} />
   </svg>
@@ -28,7 +28,7 @@ const { title, author, href } = Astro.props;
 <script>
   import { shareTrabajo } from '../lib/share';
 
-  document.querySelectorAll<HTMLButtonElement>('.share-button[data-share-href]').forEach((button) => {
+  document.querySelectorAll<HTMLButtonElement>('[data-share-href]').forEach((button) => {
     button.addEventListener('click', () => {
       const { shareTitle = '', shareAuthor = '', shareHref = '' } = button.dataset;
       shareTrabajo({ title: shareTitle, author: shareAuthor, href: shareHref });

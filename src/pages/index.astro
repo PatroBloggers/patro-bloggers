@@ -4,7 +4,7 @@ import TrabajosExplorer from '../components/TrabajosExplorer';
 import { SUBJECTS } from '../lib/subjects';
 import { getTrabajos, toTrabajoItem, url } from '../lib/utils';
 
-const items = (await getTrabajos()).map(toTrabajoItem);
+const items = await Promise.all((await getTrabajos()).map(toTrabajoItem));
 ---
 
 <BaseLayout>

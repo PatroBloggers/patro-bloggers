@@ -1,9 +1,11 @@
 ---
+import { Image } from 'astro:assets';
 import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PrintButton from '../../components/PrintButton.astro';
 import ShareButton from '../../components/ShareButton.astro';
 import TagList from '../../components/TagList.astro';
-import { excerpt, formatDate, getTrabajos, imageUrl, readingMinutes, url } from '../../lib/utils';
+import { excerpt, formatDate, getTrabajos, readingMinutes, shareImage, url } from '../../lib/utils';
 
 export async function getStaticPaths() {
   const trabajos = await getTrabajos();
@@ -18,15 +20,19 @@ const { trabajo, older, newer } = Astro.props;
 const { title, author, date, subject, image, tags } = trabajo.data;
 const { Content } = await render(trabajo);
 const minutes = readingMinutes(trabajo.body);
+const canonicalUrl = new URL(url(`trabajos/${trabajo.id}/`), Astro.site);
 ---
 
 <BaseLayout
   title={title}
   description={`${author}: ${excerpt(trabajo.body)}`}
-  image={image ? imageUrl(image) : undefined}
+  image={image ? await shareImage(image) : undefined}
   type="article"
 >
   <article class="trabajo">
+    <p class="print-only print-brand">
+      <img src={url('logo.svg')} width="28" height="31" alt="" /> Patro Bloggers
+    </p>
     <a class="back" href={url()}>← Todos los trabajos</a>
     <header>
       {subject && <p class="subject">{subject}</p>}
@@ -36,13 +42,29 @@ const minutes = readingMinutes(trabajo.body);
       </p>
       <div class="trabajo-actions">
         <TagList tags={tags} />
-        <ShareButton title={title} author={author} href={url(`trabajos/${trabajo.id}`)} />
+        <div class="trabajo-buttons">
+          <ShareButton title={title} author={author} href={url(`trabajos/${trabajo.id}`)} />
+          <PrintButton />
+        </div>
       </div>
     </header>
-    {image && <img class="trabajo-image" src={imageUrl(image)} alt="" />}
+    {
+      image && (
+        <Image
+          class="trabajo-image"
+          src={image}
+          width={700}
+          sizes="(max-width: 732px) 100vw, 700px"
+          format="webp"
+          alt=""
+          loading="eager"
+        />
+      )
+    }
     <div class="prose">
       <Content />
     </div>
+    <p class="print-only print-source">Publicado en Patro Bloggers · {canonicalUrl.href}</p>
     {
       (older || newer) && (
         <nav class="trabajo-nav" aria-label="Más trabajos">

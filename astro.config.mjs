@@ -2,8 +2,25 @@
 import { defineConfig } from 'astro/config';
 
 import react from '@astrojs/react';
+import { satteri } from '@astrojs/markdown-satteri';
 
 const base = '/patro-bloggers';
+
+/**
+ * Las fotos del texto de un trabajo se muestran como mucho al ancho de la columna de lectura.
+ * Con ese ancho, Astro genera versiones de hasta el doble (pantallas de alta densidad) y nunca
+ * sirve la original, que puede pesar varios MB si viene de un móvil. No agranda las pequeñas.
+ */
+const limitContentImageWidth = {
+  name: 'limit-content-image-width',
+  element: {
+    filter: ['img'],
+    /** @param {any} node @param {any} ctx */
+    visit(node, ctx) {
+      if (!node.properties?.width) ctx.setProperty(node, 'width', 700);
+    },
+  },
+};
 
 /**
  * En `astro dev`, Astro responde a las páginas fuera de `base` con su propio aviso de 404.
@@ -44,6 +61,16 @@ export default defineConfig({
   base,
   trailingSlash: 'ignore',
   integrations: [react()],
+  markdown: {
+    processor: satteri({ hastPlugins: [limitContentImageWidth] }),
+  },
+  image: {
+    // Imágenes adaptables por defecto (también las del texto de los trabajos): varias versiones
+    // hasta 1400px, el doble de la columna de lectura, para no servir nunca la foto original
+    layout: 'constrained',
+    breakpoints: [400, 700, 1000, 1400],
+    responsiveStyles: true,
+  },
   vite: {
     plugins: [serveOutsideBase()],
   },

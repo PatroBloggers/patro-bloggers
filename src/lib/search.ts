@@ -12,7 +12,8 @@ export interface TrabajoItem {
   subject?: string;
   /** Curso escolar, calculado a partir de la fecha */
   course: Course;
-  image?: string;
+  /** Imagen optimizada para la tarjeta */
+  image?: { src: string; srcset: string };
   tags: string[];
   /** Comienzo del texto para la tarjeta */
   excerpt: string;

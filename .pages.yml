@@ -1,8 +1,10 @@
 # Configuración de Pages CMS (https://pagescms.org/docs/configuration/)
 # Los campos deben coincidir con el esquema de src/content.config.ts
+# Las imágenes van a src/ para que Astro las optimice. La ruta guardada es relativa al
+# fichero del trabajo (src/content/trabajos/), que es como Astro las resuelve.
 media:
-  input: public/images
-  output: /patro-bloggers/images
+  input: src/assets/images
+  output: ../../assets/images
 
 content:
   - name: trabajos
