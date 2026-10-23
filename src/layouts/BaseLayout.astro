@@ -13,10 +13,13 @@ interface Props {
 }
 
 const siteName = 'Patro Bloggers';
+// Imagen genérica (plantilla en scripts/og-image.html). Subir ?v= al cambiarla: WhatsApp y
+// las demás apps guardan la vista previa y, si la dirección no cambia, siguen enseñando la antigua
+const defaultImage = url('og-image.png?v=2');
 const {
   title,
   description = 'Redacciones, relatos y reflexiones del alumnado, publicados con pseudónimo.',
-  image = url('og-image.png'),
+  image = defaultImage,
   type = 'website',
 } = Astro.props;
 const pageTitle = title ? `${title} · ${siteName}` : siteName;
@@ -48,6 +51,16 @@ const imageUrl = new URL(image, Astro.site);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={pageUrl} />
     <meta property="og:image" content={imageUrl} />
+    {
+      // Con el tamaño, WhatsApp muestra la vista previa grande desde el primer momento
+      image === defaultImage && (
+        <>
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:alt" content="Escudo de Patro Bloggers" />
+        </>
+      )
+    }
     <meta name="twitter:card" content="summary_large_image" />
 
     <title>{pageTitle}</title>

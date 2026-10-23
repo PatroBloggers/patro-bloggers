@@ -1,0 +1,92 @@
+<!doctype html>
+<!--
+  Plantilla de public/og-image.png, la imagen genérica que se ve al compartir un enlace.
+  Todo lo importante va en el cuadrado central (630x630): WhatsApp a veces muestra solo ese recorte.
+  Para regenerarla, capturar esta página a 1200x630 (p. ej. con Chromium headless) y guardar
+  la captura en public/og-image.png. Después, subir el ?v= de la imagen en BaseLayout.astro
+  para que las apps no sigan usando la antigua.
+-->
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&family=Noto+Sans:wght@400&display=block"
+    />
+    <style>
+      html,
+      body {
+        margin: 0;
+      }
+
+      .og {
+        position: relative;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: #004888;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        /* Centrado en el espacio que dejan libre las franjas */
+        padding-bottom: 38px;
+        box-sizing: border-box;
+        font-family: 'Noto Sans', sans-serif;
+        color: #fff;
+      }
+
+      /* Decoración: puede quedar fuera del recorte cuadrado */
+      .circle {
+        position: absolute;
+        border-radius: 50%;
+        background: rgb(255 255 255 / 0.04);
+      }
+
+      .stripes {
+        position: absolute;
+        inset: auto 0 0;
+        height: 38px;
+        background: linear-gradient(#38ffa0 0 8px, #f0eea8 8px);
+      }
+
+      .logo {
+        height: 260px;
+        filter: drop-shadow(0 6px 18px rgb(0 0 0 / 0.25));
+      }
+
+      h1 {
+        margin: 22px 0 0;
+        font-family: 'Noto Serif', serif;
+        font-size: 66px;
+        line-height: 1;
+      }
+
+      .rule {
+        width: 90px;
+        height: 5px;
+        margin: 22px 0 18px;
+        border-radius: 3px;
+        background: #f0eea8;
+      }
+
+      p {
+        margin: 0;
+        font-size: 28px;
+        color: #c9d8ea;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="og">
+      <div class="circle" style="width: 520px; height: 520px; left: -210px; top: -230px"></div>
+      <div class="circle" style="width: 420px; height: 420px; right: -150px; top: 300px"></div>
+      <div class="circle" style="width: 260px; height: 260px; right: 60px; top: -120px"></div>
+      <img class="logo" src="../public/logo.svg" alt="" />
+      <h1>Patro Bloggers</h1>
+      <div class="rule"></div>
+      <p>Trabajos del alumnado</p>
+      <div class="stripes"></div>
+    </div>
+  </body>
+</html>
