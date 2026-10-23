@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import TrabajoList from '../components/TrabajoList.astro';
-import { getTrabajos, url } from '../lib/utils';
+import TrabajosExplorer from '../components/TrabajosExplorer';
+import { SUBJECTS } from '../lib/subjects';
+import { getTrabajos, toTrabajoItem, url } from '../lib/utils';
 
-const trabajos = await getTrabajos();
+const items = (await getTrabajos()).map(toTrabajoItem);
 ---
 
 <BaseLayout>
@@ -18,5 +19,5 @@ const trabajos = await getTrabajos();
       </p>
     </div>
   </section>
-  <TrabajoList trabajos={trabajos} />
+  <TrabajosExplorer client:load items={items} subjects={SUBJECTS} />
 </BaseLayout>

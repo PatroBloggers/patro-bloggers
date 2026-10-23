@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import ThemeToggle from '../components/ThemeToggle.astro';
 import { url } from '../lib/utils';
 
 interface Props {
@@ -21,6 +22,19 @@ const pageTitle = title ? `${title} · ${siteName}` : siteName;
     <link rel="apple-touch-icon" href={url('apple-touch-icon.png')} />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
+    <script is:inline>
+      // Aplica el tema antes de pintar para evitar un destello del tema equivocado
+      (() => {
+        let theme = null;
+        try {
+          theme = localStorage.getItem('theme');
+        } catch {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
   </head>
   <body>
     <header class="site-header">
@@ -29,6 +43,7 @@ const pageTitle = title ? `${title} · ${siteName}` : siteName;
           <img src={url('logo.svg')} width="64" height="72" alt="" />
           <span>{siteName}</span>
         </a>
+        <ThemeToggle />
       </div>
     </header>
     <main class="container">

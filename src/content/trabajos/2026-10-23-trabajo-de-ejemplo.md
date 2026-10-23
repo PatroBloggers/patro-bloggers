@@ -2,7 +2,7 @@
 title: Trabajo de ejemplo
 author: Lechuza Curiosa
 date: 2026-10-23
-subject: Lengua y Literatura
+subject: Lengua
 tags:
   - ejemplo
   - redacción

@@ -33,7 +33,9 @@ content:
         required: true
       - name: subject
         label: Asignatura
-        type: string
+        type: select
+        options:
+          values: [Lengua, Inglés]
       - name: image
         label: Imagen
         type: image

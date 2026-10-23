@@ -1,0 +1,31 @@
+// Código compartido con el navegador: no importar nada de `astro:content` aquí
+
+/** Datos mínimos de un trabajo para el listado con búsqueda (se serializan a la isla React). */
+export interface TrabajoItem {
+  id: string;
+  href: string;
+  title: string;
+  author: string;
+  date: string;
+  dateLabel: string;
+  subject?: string;
+  image?: string;
+  tags: string[];
+  /** Título, autor, etiquetas y texto, normalizados para buscar */
+  searchText: string;
+}
+
+/** Minúsculas y sin tildes, para que "ingles" encuentre "Inglés". */
+export function normalize(text: string): string {
+  return text
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase();
+}
+
+export function slugify(text: string): string {
+  return normalize(text)
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}

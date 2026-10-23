@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../lib/utils';
+---
+
+<BaseLayout title="Página no encontrada">
+  <section class="not-found">
+    <svg class="not-found-illustration" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 200" role="img" aria-label="Una paloma confusa se rasca la cabeza junto a un libro caído en el suelo">
+      <ellipse cx="130" cy="180" rx="115" ry="10" style="fill: var(--accent-soft)"/>
+      <!-- pluma caída -->
+      <g transform="rotate(-8 50 172)">
+        <path d="M18 172 C28 164 46 162 64 170 C56 171 50 173 46 176 L49 178 C42 179 34 179 28 177 L30 175 C25 175 21 174 18 172 Z" fill="#38FFA0" stroke="#0b7a4b" stroke-width="1"/>
+        <path d="M18 172 C34 172 50 172 66 171" stroke="#0b7a4b" stroke-width="1" fill="none"/>
+        <path d="M64 170.5 L76 171 L64 172.5 Z" fill="#F0EEA8" stroke="#b8b46a" stroke-width="0.6"/>
+      </g>
+      <!-- libro abierto en el suelo -->
+      <path d="M168 176 L198 181 L228 173 L226 170 L198 177 L170 172 Z" fill="#004888"/>
+      <path d="M170 172 L198 177 L200 160 C190 155 180 155 174 158 Z" fill="#fff" stroke="#004888" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M198 177 L226 170 L222 154 C214 152 206 155 200 160 Z" fill="#fff" stroke="#004888" stroke-width="1.5" stroke-linejoin="round"/>
+      <g stroke="#004888" stroke-opacity="0.4" stroke-width="1.3" fill="none" stroke-linecap="round">
+        <path d="M178 162 L194 165"/><path d="M177 167 L194 170"/>
+        <path d="M204 164 L218 160"/><path d="M204 169 L220 165"/>
+      </g>
+      <!-- cola -->
+      <path d="M92 132 L60 150 L72 153 L62 162 L84 156 L80 166 L100 146 Z" fill="#cfdcea" stroke="#004888" stroke-width="2" stroke-linejoin="round"/>
+      <!-- patas -->
+      <g stroke="#d98b6f" stroke-width="3" stroke-linecap="round" fill="none">
+        <path d="M114 150 L112 172 M112 172 L104 176 M112 172 L114 177 M112 172 L120 175"/>
+        <path d="M132 150 L134 172 M134 172 L126 175 M134 172 L136 177 M134 172 L143 175"/>
+      </g>
+      <!-- cuerpo -->
+      <path d="M90 132 C88 110 106 96 128 98 C146 99 158 110 158 126 C158 144 142 156 122 156 C104 156 92 147 90 132 Z" fill="#fff" stroke="#004888" stroke-width="2"/>
+      <!-- cabeza -->
+      <circle cx="154" cy="84" r="20" fill="#fff" stroke="#004888" stroke-width="2"/>
+      <path d="M141 99 C146 104 150 110 150 112" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+      <path d="M172 85 L186 90 L172 95 Z" fill="#F0EEA8" stroke="#b8b46a" stroke-width="1" stroke-linejoin="round"/>
+      <circle cx="161" cy="81" r="3" fill="#004888"/>
+      <path d="M155 72 L166 75" stroke="#004888" stroke-width="2" stroke-linecap="round"/>
+      <!-- ala rascando la cabeza -->
+      <path d="M120 116 C114 96 120 74 136 62 C138 59 143 59 144 62 C146 60 151 61 150 65 C153 64 156 67 153 70 C148 78 140 86 138 100 C137 108 134 114 128 118 Z" fill="#cfdcea" stroke="#004888" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M126 104 C126 92 130 82 138 74 M130 110 C132 98 136 90 142 82" stroke="#004888" stroke-opacity="0.5" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <!-- líneas de "rasca rasca" -->
+      <g stroke="#004888" stroke-width="2" stroke-linecap="round">
+        <path d="M128 52 L124 46"/><path d="M138 48 L138 41"/><path d="M148 50 L152 44"/>
+      </g>
+      <!-- interrogaciones -->
+      <text x="182" y="62" font-family="Georgia, serif" font-weight="700" font-size="34" fill="#004888">?</text>
+      <text x="204" y="44" font-family="Georgia, serif" font-weight="700" font-size="24" fill="#0b7a4b" transform="rotate(14 210 36)">?</text>
+    </svg>
+    <p class="not-found-code">Error 404</p>
+    <h1>¡Vaya! Esta página se ha perdido</h1>
+    <p>
+      Nuestra paloma ha buscado por todas partes, pero aquí no hay nada. Puede que el enlace esté mal escrito
+      o que el trabajo ya no exista.
+    </p>
+    <a class="button" href={url()}>Volver a la portada</a>
+  </section>
+</BaseLayout>

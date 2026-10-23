@@ -1,0 +1,52 @@
+---
+// Interruptor de modo claro/oscuro. El tema inicial lo aplica el script en línea de BaseLayout.
+---
+
+<button type="button" class="theme-toggle" role="switch" aria-checked="false" aria-label="Modo oscuro">
+  <span class="theme-toggle-knob" aria-hidden="true"></span>
+  <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="4.5"></circle>
+    <path
+      d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77"
+    ></path>
+  </svg>
+  <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"></path>
+  </svg>
+</button>
+
+<script>
+  const root = document.documentElement;
+  const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle')!;
+  const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+  function apply(theme: 'light' | 'dark') {
+    root.dataset.theme = theme;
+    toggle.setAttribute('aria-checked', String(theme === 'dark'));
+  }
+
+  function savedTheme() {
+    try {
+      return localStorage.getItem('theme');
+    } catch {
+      return null;
+    }
+  }
+
+  apply(root.dataset.theme === 'dark' ? 'dark' : 'light');
+
+  toggle.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    apply(next);
+    try {
+      localStorage.setItem('theme', next);
+    } catch {
+      // Sin almacenamiento (modo privado): el cambio dura solo esta página
+    }
+  });
+
+  // Si el visitante nunca ha elegido, seguir los cambios del sistema
+  systemDark.addEventListener('change', (e) => {
+    if (!savedTheme()) apply(e.matches ? 'dark' : 'light');
+  });
+</script>
