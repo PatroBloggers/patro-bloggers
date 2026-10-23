@@ -40,6 +40,22 @@ const limitContentImageWidth = {
 };
 
 /**
+ * Las casillas de las listas de tareas (`- [x]`) salen sin etiqueta, y los lectores de pantalla
+ * anuncian solo "casilla". Con esto dicen si la tarea está hecha; el texto de la tarea va después.
+ */
+const labelTaskCheckboxes = {
+  name: 'label-task-checkboxes',
+  element: {
+    filter: ['input'],
+    /** @param {any} node @param {any} ctx */
+    visit(node, ctx) {
+      if (node.properties?.type !== 'checkbox') return;
+      ctx.setProperty(node, 'ariaLabel', node.properties.checked ? 'Tarea hecha' : 'Tarea pendiente');
+    },
+  },
+};
+
+/**
  * En `astro dev`, Astro responde a las páginas fuera de `base` con su propio aviso de 404.
  * Con esto, "/" lleva a la portada y el resto muestra nuestra 404.
  * (`astro preview` ignora los plugins de Vite del proyecto, así que ahí no aplica.
@@ -80,7 +96,7 @@ export default defineConfig({
   integrations: [react()],
   markdown: {
     processor: satteri({
-      hastPlugins: [limitContentImageWidth],
+      hastPlugins: [limitContentImageWidth, labelTaskCheckboxes],
       features: {
         gfm: { footnotes: { label: 'Notas', backLabel: 'Volver a la referencia {reference}' } },
       },

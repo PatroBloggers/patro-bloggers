@@ -66,7 +66,8 @@ export default function TrabajosExplorer({ items, subjects }: Props) {
   }, [filters]);
 
   // Panel de cursos en móvil: Escape lo cierra, la página no se desplaza por detrás
-  // y el foco entra en el panel al abrirlo y vuelve al botón al cerrarlo
+  // y el foco entra en el panel al abrirlo y vuelve al botón al cerrarlo. Mientras está abierto,
+  // el resto de la página (salvo el fondo oscuro, que lo cierra) es inerte: ni foco ni clics
   useEffect(() => {
     if (!menuOpen) return;
     const desktop = window.matchMedia(DESKTOP_QUERY);
@@ -75,11 +76,21 @@ export default function TrabajosExplorer({ items, subjects }: Props) {
     document.addEventListener('keydown', onKey);
     desktop.addEventListener('change', close);
     document.body.style.overflow = 'hidden';
+    const inerted: HTMLElement[] = [];
+    for (let el = sidebar.current; el?.parentElement && el !== document.body; el = el.parentElement) {
+      for (const sibling of el.parentElement.children) {
+        if (sibling === el || !(sibling instanceof HTMLElement) || sibling.inert) continue;
+        if (sibling.classList.contains('sidebar-backdrop')) continue;
+        sibling.inert = true;
+        inerted.push(sibling);
+      }
+    }
     sidebar.current?.querySelector<HTMLButtonElement>('[aria-pressed="true"]')?.focus();
     return () => {
       document.removeEventListener('keydown', onKey);
       desktop.removeEventListener('change', close);
       document.body.style.overflow = '';
+      inerted.forEach((el) => (el.inert = false));
       if (!desktop.matches) menuButton.current?.focus();
     };
   }, [menuOpen]);

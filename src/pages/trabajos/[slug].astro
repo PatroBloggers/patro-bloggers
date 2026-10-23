@@ -63,7 +63,7 @@ const canonicalUrl = new URL(url(`trabajos/${trabajo.id}/`), Astro.site);
           sizes="(max-width: 732px) 100vw, 700px"
           format="webp"
           alt=""
-          loading="eager"
+          priority
         />
       )
     }
