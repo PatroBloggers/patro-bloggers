@@ -10,8 +10,6 @@ interface Props {
   image?: string;
   /** `article` en la página de un trabajo */
   type?: 'website' | 'article';
-  /** Para páginas que no deben aparecer en buscadores (404) */
-  noindex?: boolean;
 }
 
 const siteName = 'Patro Bloggers';
@@ -20,11 +18,10 @@ const {
   description = 'Redacciones, relatos y reflexiones del alumnado, publicados con pseudónimo.',
   image = url('og-image.png'),
   type = 'website',
-  noindex = false,
 } = Astro.props;
 const pageTitle = title ? `${title} · ${siteName}` : siteName;
 // Las redes sociales necesitan URLs absolutas
-const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const pageUrl = new URL(Astro.url.pathname, Astro.site);
 const imageUrl = new URL(image, Astro.site);
 ---
 
@@ -33,7 +30,9 @@ const imageUrl = new URL(image, Astro.site);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonicalUrl} />}
+    <!-- Trabajos de menores: que los buscadores no indexen la web ni sus imágenes. (Un robots.txt
+         no serviría: tendría que estar en la raíz del dominio, fuera de /patro-bloggers/) -->
+    <meta name="robots" content="noindex, nofollow, noimageindex" />
     <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
     <link rel="apple-touch-icon" href={url('apple-touch-icon.png')} />
     <!-- Instalable como aplicación (PWA / WebAPK en Android) -->
@@ -47,7 +46,7 @@ const imageUrl = new URL(image, Astro.site);
     <meta property="og:locale" content="es_ES" />
     <meta property="og:title" content={title ?? siteName} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:url" content={pageUrl} />
     <meta property="og:image" content={imageUrl} />
     <meta name="twitter:card" content="summary_large_image" />
 
