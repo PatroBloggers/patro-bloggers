@@ -1,4 +1,5 @@
 // Código compartido con el navegador: no importar nada de `astro:content` aquí
+import type { Course } from './courses';
 
 /** Datos mínimos de un trabajo para el listado con búsqueda (se serializan a la isla React). */
 export interface TrabajoItem {
@@ -9,6 +10,8 @@ export interface TrabajoItem {
   date: string;
   dateLabel: string;
   subject?: string;
+  /** Curso escolar, calculado a partir de la fecha */
+  course: Course;
   image?: string;
   tags: string[];
   /** Comienzo del texto para la tarjeta */

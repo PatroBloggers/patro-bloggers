@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { courseOf } from './courses';
 import { normalize, type TrabajoItem } from './search';
 
 export { slugify } from './search';
@@ -56,6 +57,7 @@ export function toTrabajoItem(trabajo: CollectionEntry<'trabajos'>): TrabajoItem
     date: date.toISOString(),
     dateLabel: formatDate(date),
     subject,
+    course: courseOf(date),
     image: image ? imageUrl(image) : undefined,
     tags,
     excerpt: excerpt(trabajo.body, 140),

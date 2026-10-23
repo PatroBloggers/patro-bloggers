@@ -17,6 +17,9 @@
   --header-text: #ffffff;
   --quote-border: #d6cf55;
   --radius: 12px;
+  /* Columnas de la portada: lateral de cursos + contenido (las comparten la bienvenida y el listado) */
+  --sidebar-width: 220px;
+  --column-gap: 28px;
   --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-prose: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
   color-scheme: light;
@@ -83,7 +86,7 @@ img {
 
 .container {
   width: 100%;
-  max-width: 960px;
+  max-width: 1120px;
   margin: 0 auto;
   padding: 0 16px;
 }
@@ -216,7 +219,26 @@ main.container {
   margin-bottom: 0;
 }
 
+/* En ordenador, el escudo queda centrado sobre el lateral y el texto alineado con el buscador */
+@media (min-width: 900px) {
+  .hero {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+    gap: var(--column-gap);
+  }
+
+  .hero-logo {
+    justify-self: center;
+  }
+}
+
 @media (max-width: 600px) {
+  .site-brand {
+    gap: 10px;
+    font-size: 1.25rem;
+    white-space: nowrap;
+  }
+
   .site-brand img {
     width: 52px;
     height: auto;
@@ -294,7 +316,23 @@ main.container {
 }
 
 .card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   padding: 16px 20px 20px;
+}
+
+/* Etiquetas a la izquierda y compartir a la derecha, siempre al pie de la tarjeta */
+.card-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.card-footer .share-button {
+  margin-left: auto;
 }
 
 .card h2 {
@@ -381,6 +419,289 @@ button.tag {
 .tag[aria-pressed='true'] {
   background: var(--brand-green);
   color: #08311f;
+}
+
+/* Botón de compartir */
+.share-button {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.share-button:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.share-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.share-icon {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.trabajo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.trabajo-actions .share-button {
+  margin-left: auto;
+}
+
+/* Aviso breve ("Enlace copiado") */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 10;
+  padding: 10px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: var(--brand-blue);
+  border-bottom: 3px solid var(--brand-yellow);
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.2);
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+
+.toast-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    transition: none;
+  }
+}
+
+/* Listado con lateral de cursos: columna fija a la izquierda en ordenador, panel deslizante en móvil */
+.explorer {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--column-gap);
+}
+
+.sidebar {
+  position: sticky;
+  top: 24px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--brand-yellow);
+  border-radius: var(--radius);
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.sidebar-title {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.sidebar-close,
+.menu-button,
+.sidebar-backdrop {
+  display: none;
+}
+
+.course-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.course-button {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  font: inherit;
+  font-size: 0.925rem;
+  text-align: left;
+  color: var(--text);
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.course-button:hover {
+  background: var(--accent-soft);
+}
+
+.course-button[aria-pressed='true'] {
+  font-weight: 600;
+  color: var(--surface);
+  background: var(--accent);
+}
+
+.course-button:focus-visible,
+.menu-button:focus-visible,
+.sidebar-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.course-count {
+  min-width: 1.8em;
+  padding: 0 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--muted);
+  background: var(--bg);
+  border-radius: 999px;
+}
+
+.course-button[aria-pressed='true'] .course-count {
+  color: var(--accent);
+  background: var(--surface);
+}
+
+.search-row {
+  display: flex;
+  gap: 8px;
+}
+
+@media (max-width: 899px) {
+  .explorer {
+    display: block;
+  }
+
+  .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 30;
+    width: min(85vw, 300px);
+    overflow-y: auto;
+    border-width: 0 1px 0 0;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    box-shadow: 4px 0 24px rgb(0 0 0 / 0.2);
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition:
+      transform 0.25s ease,
+      visibility 0s linear 0.25s;
+  }
+
+  .sidebar-open {
+    transform: none;
+    visibility: visible;
+    transition: transform 0.25s ease;
+  }
+
+  .sidebar-header {
+    margin: -16px -16px 12px;
+    padding: 14px 16px;
+    background: var(--header-bg);
+    border-bottom: 4px solid var(--brand-yellow);
+  }
+
+  .sidebar-title {
+    color: var(--header-text);
+  }
+
+  .sidebar-close {
+    display: block;
+    width: 32px;
+    height: 32px;
+    font-size: 1.6rem;
+    line-height: 1;
+    color: var(--header-text);
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 29;
+    background: rgb(10 22 38 / 0.5);
+  }
+
+  .menu-button {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 6px;
+    max-width: 45%;
+    padding: 0 12px;
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .menu-button svg {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+
+  .menu-button span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 899px) and (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .sidebar-open {
+    transition: none;
+  }
 }
 
 /* Búsqueda y filtros */

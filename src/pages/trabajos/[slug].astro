@@ -1,6 +1,7 @@
 ---
 import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ShareButton from '../../components/ShareButton.astro';
 import TagList from '../../components/TagList.astro';
 import { excerpt, formatDate, getTrabajos, imageUrl, readingMinutes, url } from '../../lib/utils';
 
@@ -33,7 +34,10 @@ const minutes = readingMinutes(trabajo.body);
       <p class="meta">
         {author} · <time datetime={date.toISOString()}>{formatDate(date)}</time> · {minutes} min de lectura
       </p>
-      <TagList tags={tags} />
+      <div class="trabajo-actions">
+        <TagList tags={tags} />
+        <ShareButton title={title} author={author} href={url(`trabajos/${trabajo.id}`)} />
+      </div>
     </header>
     {image && <img class="trabajo-image" src={imageUrl(image)} alt="" />}
     <div class="prose">
