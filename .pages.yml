@@ -2,7 +2,7 @@
 # Los campos deben coincidir con el esquema de src/content.config.ts
 media:
   input: public/images
-  output: /patro-blogs/images
+  output: /patro-bloggers/images
 
 content:
   - name: trabajos

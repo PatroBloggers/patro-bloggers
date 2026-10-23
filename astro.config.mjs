@@ -6,7 +6,7 @@ import react from '@astrojs/react';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://patrobloggers.github.io',
-  base: '/patro-blogs',
+  base: '/patro-bloggers',
   trailingSlash: 'ignore',
   integrations: [react()],
 });

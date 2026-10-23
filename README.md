@@ -1,7 +1,7 @@
-# Patro Blogs
+# Patro Bloggers
 
 Web estática con los trabajos del alumnado, publicada en GitHub Pages:
-https://patrobloggers.github.io/patro-blogs/
+https://patrobloggers.github.io/patro-bloggers/
 
 - **Astro** genera una página HTML por cada trabajo.
 - **Pages CMS** (https://pagescms.org) permite crear y editar trabajos desde el navegador; su configuración está en `.pages.yml`.
@@ -26,7 +26,7 @@ Requiere Node 24 (`nvm use`).
 | Comando           | Acción                                        |
 | ----------------- | --------------------------------------------- |
 | `npm install`     | Instala dependencias                          |
-| `npm run dev`     | Servidor local en `http://localhost:4321/patro-blogs/` |
+| `npm run dev`     | Servidor local en `http://localhost:4321/patro-bloggers/` |
 | `npm run build`   | Genera la web en `./dist/`                    |
 | `npm run preview` | Sirve el build localmente                     |
 
