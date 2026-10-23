@@ -1,9 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 128 128">
-    <path d="M50.4 78.5a75.1 75.1 0 0 0-28.5 6.9l24.2-65.7c.7-2 1.9-3.2 3.4-3.2h29c1.5 0 2.7 1.2 3.4 3.2l24.2 65.7s-11.6-7-28.5-7L67 45.5c-.4-1.7-1.6-2.8-2.9-2.8-1.3 0-2.5 1.1-2.9 2.7L50.4 78.5Zm-1.1 28.2Zm-4.2-20.2c-2 6.6-.6 15.8 4.2 20.2a17.5 17.5 0 0 1 .2-.7 5.5 5.5 0 0 1 5.7-4.5c2.8.1 4.3 1.5 4.7 4.7.2 1.1.2 2.3.2 3.5v.4c0 2.7.7 5.2 2.2 7.4a13 13 0 0 0 5.7 4.9v-.3l-.2-.3c-1.8-5.6-.5-9.5 4.4-12.8l1.5-1a73 73 0 0 0 3.2-2.2 16 16 0 0 0 6.8-11.4c.3-2 .1-4-.6-6l-.8.6-1.6 1a37 37 0 0 1-22.4 2.7c-5-.7-9.7-2-13.2-6.2Z" />
-    <style>
-        path { fill: #000; }
-        @media (prefers-color-scheme: dark) {
-            path { fill: #FFF; }
-        }
-    </style>
+<svg role="img" aria-label="Escudo de Patro Bloggers" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 112">
+  <path d="M50 3 L95 15 V52 C95 81 74 99 50 109 C26 99 5 81 5 52 V15 Z" fill="#F0EEA8"/>
+  <path d="M50 10 L88 20 V52 C88 76 71 92 50 101 C29 92 12 76 12 52 V20 Z" fill="#004888"/>
+  <path d="M20 62 C31 57 42 58 50 64 V88 C42 82 31 81 20 86 Z" fill="#ffffff"/>
+  <path d="M80 62 C69 57 58 58 50 64 V88 C58 82 69 81 80 86 Z" fill="#ffffff"/>
+  <path d="M50 64 V88" stroke="#004888" stroke-width="1.5"/>
+  <g stroke="#004888" stroke-opacity="0.45" stroke-width="1.6" fill="none" stroke-linecap="round">
+    <path d="M30 68 C35 66 40 66.3 45 68.5"/>
+    <path d="M25 73 C32 70 39 70.3 45 74"/>
+    <path d="M25 78.5 C32 75.5 39 75.8 45 79.5"/>
+    <path d="M75 67.5 C68 64.5 61 64.8 55 68.5"/>
+    <path d="M75 73 C68 70 61 70.3 55 74"/>
+    <path d="M75 78.5 C68 75.5 61 75.8 55 79.5"/>
+  </g>
+  <path d="M20 86 C31 81 42 82 50 88 C58 82 69 81 80 86" stroke="#38FFA0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <g transform="translate(2.5 2.5)">
+    <path d="M11 17 C11.5 25 13.5 34.5 17.5 39.5 C20.5 43.5 24.5 46 28 47 C26.8 43.5 26 38.5 25.4 35 L23 35.4 C22.3 31 21 28 20 26 C17.5 22 14 19 11 17 Z" fill="#38FFA0"/>
+    <path d="M11 17 C17 26 23 37 28 47" stroke="#0b7a4b" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+    <path d="M27 46.2 L29 45.2 L37.5 63 Z" fill="#F0EEA8"/>
+  </g>
+  <g fill="#ffffff">
+    <path d="M50 40 C52 31 58 23 68 18 C66 24 67 27 64 31 C68 30 71 30 74 29 C70 35 62 40 56 42 Z" fill="#cfdcea"/>
+    <path d="M30 41 C31 37 35 35.5 39 37 C45 40 54 40 62 37 L76 32 L71 39.5 L78 43 L63 44.5 C56 49 45 50 38 46 C35 44.5 32 43.5 30 41 Z"/>
+    <path d="M44 41 C44 30 48 21 56 14 C55 20 56 23 54 27 C58 25 61 24 64 23 C61 29 59 31 57 33 C60 33 63 33 66 32 C60 38 52 42 44 41 Z"/>
+  </g>
+  <circle cx="34" cy="38.6" r="1" fill="#004888"/>
+  <path d="M30.2 39.6 L26.5 41.3 L30.6 42.2 Z" fill="#F0EEA8"/>
 </svg>

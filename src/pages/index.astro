@@ -1,15 +1,22 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TrabajoList from '../components/TrabajoList.astro';
-import { getTrabajos } from '../lib/utils';
+import { getTrabajos, url } from '../lib/utils';
 
 const trabajos = await getTrabajos();
 ---
 
 <BaseLayout>
-  <section class="intro">
-    <h1>Trabajos del alumnado</h1>
-    <p>Una selección de textos escritos por nuestros alumnos y alumnas.</p>
+  <section class="intro hero">
+    <img class="hero-logo" src={url('logo.svg')} width="140" height="157" alt="Escudo de Patro Bloggers" />
+    <div>
+      <h1>Bienvenidos a Patro Bloggers</h1>
+      <p>
+        Este es el rincón donde nuestro alumnado comparte lo que escribe: redacciones, relatos, ensayos y
+        reflexiones nacidos en clase y fuera de ella. Cada trabajo se publica con un pseudónimo, porque aquí lo
+        importante son las ideas. Pasa, lee y déjate sorprender.
+      </p>
+    </div>
   </section>
   <TrabajoList trabajos={trabajos} />
 </BaseLayout>

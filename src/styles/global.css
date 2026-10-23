@@ -81,15 +81,58 @@ main.container {
 }
 
 .site-header .container {
-  padding-top: 16px;
-  padding-bottom: 16px;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 
-.site-title {
+.site-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
   font-weight: 700;
-  font-size: 1.25rem;
+  font-size: 1.6rem;
+  letter-spacing: 0.01em;
   color: var(--header-text);
   text-decoration: none;
+}
+
+.site-brand img {
+  display: block;
+}
+
+/* Portada: escudo grande junto a la bienvenida */
+.hero {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.hero-logo {
+  flex-shrink: 0;
+  filter: drop-shadow(0 6px 14px rgb(0 72 136 / 0.25));
+}
+
+.hero p {
+  margin-bottom: 0;
+}
+
+@media (max-width: 600px) {
+  .site-brand img {
+    width: 52px;
+    height: auto;
+  }
+
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .hero-logo {
+    width: 110px;
+    height: auto;
+  }
 }
 
 .site-footer {
@@ -105,6 +148,7 @@ main.container {
 
 .intro p {
   margin: 0 0 32px;
+  max-width: 65ch;
   color: var(--muted);
 }
 

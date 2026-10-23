@@ -7,8 +7,8 @@ interface Props {
   description?: string;
 }
 
-const siteName = 'Patro Blogs';
-const { title, description = 'Trabajos de alumnos y alumnas' } = Astro.props;
+const siteName = 'Patro Bloggers';
+const { title, description = 'Redacciones, relatos y reflexiones del alumnado, publicados con pseudónimo.' } = Astro.props;
 const pageTitle = title ? `${title} · ${siteName}` : siteName;
 ---
 
@@ -18,14 +18,17 @@ const pageTitle = title ? `${title} · ${siteName}` : siteName;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
-    <link rel="icon" href={url('favicon.ico')} />
+    <link rel="apple-touch-icon" href={url('apple-touch-icon.png')} />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
   </head>
   <body>
     <header class="site-header">
       <div class="container">
-        <a class="site-title" href={url()}>{siteName}</a>
+        <a class="site-brand" href={url()}>
+          <img src={url('logo.svg')} width="64" height="72" alt="" />
+          <span>{siteName}</span>
+        </a>
       </div>
     </header>
     <main class="container">
